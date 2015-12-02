@@ -113,7 +113,8 @@ public class Graph {
         System.out.println("Cliques -> ");
         while(itr.hasNext()) {
            Object element = itr.next();           
-           System.out.println(element);
+           System.out.println(element + " -> " + parserClique(element)[1] + " " + parserClique(element)[2] 
+        		   					  + " " + parserClique(element)[3] + " " + parserClique(element)[4]);
         }
         
         // remove vertex 0
