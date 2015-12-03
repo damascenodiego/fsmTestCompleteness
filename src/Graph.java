@@ -15,23 +15,9 @@ public class Graph {
 		//ListenableGraph<Object, DefaultEdge> graph = new ListenableUndirectedGraph<Object, DefaultEdge>(DefaultEdge.class);
 		graph = new SimpleGraph<Object, DefaultEdge>(DefaultEdge.class);		
 		
-		// add vertex
-		graph.addVertex( "0" );
-		graph.addVertex( "1" );
-		graph.addVertex( "2" );
-		graph.addVertex( "3" );
-		graph.addVertex( "4" );
-		graph.addVertex( "5" );
-		graph.addVertex( "6" );
-		graph.addVertex( "7" );
-		graph.addVertex( "8" );
-		graph.addVertex( "9" );
-		graph.addVertex( "10" );
-		graph.addVertex( "11" );
-		graph.addVertex( "12" );
-		graph.addVertex( "13" );
-		graph.addVertex( "14" );
-		graph.addVertex( "15" );
+		// add vertex 0-15
+		for (int i=0; i<=15; i++)
+			graph.addVertex(Integer.toString(i));
         
         // add vertex 0
 		graph.addEdge( "0", "1" );
@@ -113,7 +99,7 @@ public class Graph {
         System.out.println("Cliques -> ");
         while(itr.hasNext()) {
            Object element = itr.next();           
-           System.out.println(element + " -> " + parserClique(element)[1] + " " + parserClique(element)[2] 
+           System.out.println(element + " : split -> " + parserClique(element)[1] + " " + parserClique(element)[2] 
         		   					  + " " + parserClique(element)[3] + " " + parserClique(element)[4]);
         }
         
@@ -124,7 +110,7 @@ public class Graph {
      	System.out.format("\nGrafo sem o nó 0 (arestas foram excluídas): %s", graph.toString());	
 	}
 	
-	public static Object[] parserClique (Object s) {			
+	public static Object[] parserClique (Object s) {
 		return s.toString().split("\\[|\\,|\\]");
 		
 	}
