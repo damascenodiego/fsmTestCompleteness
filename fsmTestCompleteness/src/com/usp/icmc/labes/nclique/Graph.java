@@ -1,3 +1,4 @@
+package com.usp.icmc.labes.nclique;
 import java.util.Iterator;
 import java.util.Set;
 import org.jgraph.graph.DefaultEdge;
