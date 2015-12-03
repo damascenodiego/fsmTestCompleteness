@@ -103,6 +103,15 @@ public class Graph {
         		   					  + " " + parserClique(element)[3] + " " + parserClique(element)[4]);
         }
         
+        
+        // vertex_0 contains an edge with vertex_6
+        Object v1 = 0;
+        Object v2 = 6;
+        Object v3 = 5;
+        System.out.println();
+        System.out.println("edge between 0 and 6: " + graph.containsEdge(v1.toString(), v2.toString()));
+        System.out.println("edge between 0 and 5:" + graph.containsEdge(v1.toString(), v3.toString()));
+        
         // remove vertex 0
         graph.removeVertex("0");
 
