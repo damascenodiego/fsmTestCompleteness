@@ -92,7 +92,8 @@ public class Graph {
                 
 		// clique finder
 		BronKerboschCliqueFinder<Object, DefaultEdge> finder = new BronKerboschCliqueFinder<Object, DefaultEdge>( graph );        
-		//Iterator<Set<Object>> itr = finder.getAllMaximalCliques().iterator();
+		
+		// get cliques
         Iterator<Set<Object>> itr = finder.getBiggestMaximalCliques().iterator();
                 
         // show cliques        
