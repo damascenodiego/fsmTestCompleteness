@@ -22,10 +22,10 @@ public class FSMModel {
 		
 		JFileChooser chooser = new JFileChooser();
 		
-		//int retorno = chooser.showDialog(null, "Open");
-		int retorno = 0;
+		//int result = chooser.showDialog(null, "Open");
+		int result = 0;
 		
-		if (retorno == JFileChooser.APPROVE_OPTION){
+		if (result == JFileChooser.APPROVE_OPTION){
 			
 			Scanner scanner = null;
 			
