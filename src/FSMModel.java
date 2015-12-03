@@ -31,7 +31,7 @@ public class FSMModel {
 			
 			try {
 				//scanner = new Scanner(new File( chooser.getSelectedFile().getAbsolutePath() ));
-				scanner = new Scanner(new File("./data/mef.txt"));
+				scanner = new Scanner(new File("./data/mef-class.txt"));
 				
 				String source = "";
 				String target = "";
