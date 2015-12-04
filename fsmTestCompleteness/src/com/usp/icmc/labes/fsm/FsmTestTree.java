@@ -41,8 +41,8 @@ public class FsmTestTree extends FsmModel{
 				int toId = sut.getCurrentState().getId();
 				testTreeSut.input(string.charAt(i));
 				
-//				tr.getTo().getProperties().put("name", toId);
-//				tr.getFrom().getProperties().put("name", fromId);
+				tr.getTo().getProperties().put("name", toId);
+				tr.getFrom().getProperties().put("name", fromId);
 			}
 			sut.setCurrentState(sut.getSut().getInitialState());
 			testTreeSut.setCurrentState(testTreeSut.getSut().getInitialState());

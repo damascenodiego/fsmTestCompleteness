@@ -14,7 +14,9 @@ import java.util.Set;
 
 import org.jgraph.graph.DefaultEdge;
 import org.jgrapht.DirectedGraph;
+import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DirectedMultigraph;
+import org.jgrapht.graph.SimpleGraph;
 
 import com.usp.icmc.labes.fsm.FsmModel;
 import com.usp.icmc.labes.fsm.FsmState;
@@ -43,11 +45,13 @@ public class CheckCompleteness {
 
 		/* 1. Build the distinguishability graph G of T . */
 		FsmTestTree testTree = new FsmTestTree(model, test);
-		DirectedGraph<FsmState, DefaultEdge> distinguishabilityGraph;
+		UndirectedGraph<FsmState, DefaultEdge> distinguishabilityGraph;
 		distinguishabilityGraph = createDistinguishabilityGraph(testTree);
 		
-		
 		/* 2. Let L be the empty set. */
+		Set<FsmState> l_set = new HashSet<FsmState>();
+		
+		
 		
 		/* 3. Determine (by using the branch-and-bound approach)
 		 * an n-clique K of G, such that there does not exist
@@ -74,11 +78,15 @@ public class CheckCompleteness {
 		/* 
 		 * 7. Include K in L and go to Step 3. 
 		 * */
-		
+//		l_set.addAll(clique);
 
 		try {
 			File testTreeFile 	= new File(testFile_str+"_tree.dot");
 			saveTestTree(testTree,testTreeFile);
+			
+			File dgFile 	= new File(testFile_str+"_dg.dot");
+			saveDistinguishabilityGraph(distinguishabilityGraph,dgFile);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -87,9 +95,95 @@ public class CheckCompleteness {
 		System.out.println(model);
 	}
 
-	private static DirectedGraph<FsmState, DefaultEdge> createDistinguishabilityGraph(FsmTestTree testTree) {
-		DirectedMultigraph<FsmState, DefaultEdge> dg = new DirectedMultigraph<FsmState, DefaultEdge>(DefaultEdge.class);
+	private static void saveDistinguishabilityGraph(UndirectedGraph<FsmState, DefaultEdge> distinguishabilityGraph,
+			File f) throws FileNotFoundException {
 		
+		PrintWriter pw = new PrintWriter(f);
+
+		int from;
+		String in;
+		String out;
+		int to;
+
+//		List<FsmTransition> transit = new ArrayList<FsmTransition>();
+//		transit.addAll(fsm.getTransitions());
+
+		pw.println("graph g {");
+
+//				List<Integer> ids = new ArrayList<Integer>();
+//				for (FsmState st : fsm.getStates()) ids.add((Integer) st.getProperties().get("name"));
+//
+//				pw.println("\t{");
+//				for (FsmState st : fsm.getStates()) {
+//					pw.println("\t\t"+ 
+//							Integer.toString(st.getId())
+//							+" [style=filled, fillcolor="+getColor(ids.indexOf(st.getProperties().get("name")))+ "];");
+//				}
+//				pw.println("\t}");
+//
+//				for (FsmState st : fsm.getStates()) {
+//					int realState = (Integer)st.getProperties().get("name");
+//					pw.println("\tsubgraph cluster_sub"
+//							+Integer.toString(st.getId())
+//							+"{ "+Integer.toString(st.getId())+";"
+//							+"\tlabel = \"state "+realState+"\";"
+//							+ " color=white}");
+//				}
+
+
+		for (DefaultEdge edge : distinguishabilityGraph.edgeSet()) {
+			from 	= ((FsmState)edge.getTarget()).getId();
+			to 		= ((FsmState)edge.getSource()).getId();
+			pw.println("\t"+Integer.toString(from)
+			+" -> "
+			+Integer.toString(to) 			
+			//+" [label=\""+in+" / "+out+"\"]"
+					+ ";");
+		}
+		pw.println("}");
+		pw.close();
+	}		
+
+	private static UndirectedGraph<FsmState, DefaultEdge> createDistinguishabilityGraph(FsmTestTree testTree) {
+		UndirectedGraph<FsmState, DefaultEdge> dg = new SimpleGraph<FsmState, DefaultEdge>(DefaultEdge.class);
+		
+		for (FsmState node : testTree.getStates()) {
+			dg.addVertex(node);
+		}
+		
+		FsmState statei = null;
+		FsmState statej = null;
+		for (int i = 0; i < testTree.getStates().size()-1; i++) {
+			for (int j = i+1; j < testTree.getStates().size(); j++) {
+				statei = testTree.getStates().get(i);
+				statej = testTree.getStates().get(j);
+				if(isT_Distinguishable(statei,statej)){
+					dg.addEdge(statei,statej);
+				}
+			}
+		}
+		return dg;
+	}
+
+	private static boolean isT_Distinguishable(FsmState statei, FsmState statej) {
+		FsmTransition tri = null;
+		FsmTransition trj = null;
+		for (int i = 0; i < statei.getOut().size(); i++) {
+			tri = statei.getOut().get(i);
+			trj = getTransitionMatchingInput(tri,statej);
+			if(trj!=null){
+				if(!tri.getOutput().equals(trj.getOutput())) return true;
+				else return isT_Distinguishable(tri.getTo(),trj.getTo());
+			}
+		}
+		return false;
+	}
+
+	private static FsmTransition getTransitionMatchingInput(FsmTransition tri, FsmState statej) {
+		for (int j = 0; j < statej.getOut().size(); j++) {
+			FsmTransition trj = statej.getOut().get(j);
+			if(trj.getInput().equals(tri.getInput())) return trj;
+		}
 		return null;
 	}
 
@@ -185,25 +279,25 @@ public class CheckCompleteness {
 
 		pw.println("digraph g {");
 
-		//		List<Integer> ids = new ArrayList<Integer>();
-		//		for (FsmState st : fsm.getStates()) ids.add((Integer) st.getProperties().get("name"));
+				List<Integer> ids = new ArrayList<Integer>();
+				for (FsmState st : fsm.getStates()) ids.add((Integer) st.getProperties().get("name"));
 
-		//		pw.println("\t{");
-		//		for (FsmState st : fsm.getStates()) {
-		//			pw.println("\t\t"+ 
-		//					Integer.toString(st.getId())
-		//					+" [style=filled, fillcolor="+getColor(ids.indexOf(st.getProperties().get("name")))+ "];");
-		//		}
-		//		pw.println("\t}");
+				pw.println("\t{");
+				for (FsmState st : fsm.getStates()) {
+					pw.println("\t\t"+ 
+							Integer.toString(st.getId())
+							+" [style=filled, fillcolor="+getColor(ids.indexOf(st.getProperties().get("name")))+ "];");
+				}
+				pw.println("\t}");
 
-		//		for (FsmState st : fsm.getStates()) {
-		//			int realState = (Integer)st.getProperties().get("name");
-		//			pw.println("\tsubgraph cluster_sub"
-		//					+Integer.toString(st.getId())
-		//					+"{ "+Integer.toString(st.getId())+";"
-		//					+"\tlabel = \"state "+realState+"\";"
-		//					+ " color=white}");
-		//		}
+//				for (FsmState st : fsm.getStates()) {
+//					int realState = (Integer)st.getProperties().get("name");
+//					pw.println("\tsubgraph cluster_sub"
+//							+Integer.toString(st.getId())
+//							+"{ "+Integer.toString(st.getId())+";"
+//							+"\tlabel = \"state "+realState+"\";"
+//							+ " color=white}");
+//				}
 
 
 		for (FsmTransition tr : transit) {
