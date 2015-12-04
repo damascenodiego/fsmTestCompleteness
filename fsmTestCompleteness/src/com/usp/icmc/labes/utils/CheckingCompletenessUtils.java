@@ -27,12 +27,12 @@ public class CheckingCompletenessUtils {
 		return instance;
 	}
 
-	public boolean canApplyLemma2(FsmState alpha, Set<FsmState> k_set) {
+	public boolean canApplyLemma2(FsmState alpha, Set<FsmState> k_set, UndirectedGraph<FsmState, DefaultEdge> dg) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean canApplyLemma3(FsmState alpha, Set<FsmState> k_set) {
+	public boolean canApplyLemma3(FsmState alpha, Set<FsmState> k_set, UndirectedGraph<FsmState, DefaultEdge> dg) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -85,19 +85,19 @@ public class CheckCompleteness {
 				label_int++;
 			}
 
-			
 			// 4. Find a sequence \alpha \in T \ K
 			for (FsmState alpha: t) {
 				if(k_set.contains(t)) continue;
 				// such that either Lemma 2 or Lemma 3 can be applied.
-				if(ccutils.canApplyLemma2(alpha,k_set) || ccutils.canApplyLemma3(alpha,k_set)){
+				if(ccutils.canApplyLemma2(alpha,k_set,dg) || ccutils.canApplyLemma3(alpha,k_set,dg)){
 					/* 5. Include \alpha in K and go to Step 4. */
 					k_set.add(alpha);
-					
+
 				}
 				/* If no such a sequence exists, go to Step 6. */
 				/* 6. If K satisfies Theorem 1, then terminate with the answer True. */
 				if(ccutils.satisfiesTheorem1(k_set,model)) {
+					/* Output: True, if T is n-complete according to Theorems 1 and 2. */
 					System.out.println("TRUE!!!");
 					System.exit(0);
 				}
@@ -106,23 +106,23 @@ public class CheckCompleteness {
 				l_set.addAll(k_set);
 			}
 
+			/* Output: True, if T is n-complete according to Theorems 1 and 2. */
 			System.out.println("FALSE!!!");
 			System.exit(1);
 
 		}
-		try {
-			File testTreeFile 	= new File(testFile_str+"_tree.dot");
-			testutils.saveTestTree(testTree,testTreeFile);
-
-			File dgFile 	= new File(testFile_str+"_dg.dot");
-			dgutils.saveDistinguishabilityGraph(dg,dgFile);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		/* Output: True, if T is n-complete according to Theorems 1 and 2. */
-		System.out.println(model);
+		//		try {
+		//			File testTreeFile 	= new File(testFile_str+"_tree.dot");
+		//			testutils.saveTestTree(testTree,testTreeFile);
+		//
+		//			File dgFile 	= new File(testFile_str+"_dg.dot");
+		//			dgutils.saveDistinguishabilityGraph(dg,dgFile);
+		//
+		//		} catch (Exception e) {
+		//			e.printStackTrace();
+		//		}
+		//
+		//		System.out.println(model);
 	}
 
 
