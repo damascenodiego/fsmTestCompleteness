@@ -12,6 +12,10 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import org.jgraph.graph.DefaultEdge;
+import org.jgrapht.DirectedGraph;
+import org.jgrapht.graph.DirectedMultigraph;
+
 import com.usp.icmc.labes.fsm.FsmModel;
 import com.usp.icmc.labes.fsm.FsmState;
 import com.usp.icmc.labes.fsm.FsmTest;
@@ -25,6 +29,9 @@ public class CheckCompleteness {
 
 	public static void main(String[] args) {
 
+		/* Algorithm 1. */
+		/* Input: An FSM M and a test suite T .  */
+
 		String fsmFile_str 	= args	[0];
 		String testFile_str	= args	[1];
 
@@ -34,8 +41,40 @@ public class CheckCompleteness {
 		FsmModel model = loadFsmModel(fsmFile);
 		FsmTest test = loadFsmTest(testFile);
 
+		/* 1. Build the distinguishability graph G of T . */
 		FsmTestTree testTree = new FsmTestTree(model, test);
-
+		DirectedGraph<FsmState, DefaultEdge> distinguishabilityGraph;
+		distinguishabilityGraph = createDistinguishabilityGraph(testTree);
+		
+		
+		/* 2. Let L be the empty set. */
+		
+		/* 3. Determine (by using the branch-and-bound approach)
+		 * an n-clique K of G, such that there does not exist
+		 * K' \in L with K \subseteq K'. 
+		 * If no such a clique exists, 
+		 * then terminate with the answer False.
+		 */
+		
+		/*  
+		 * 4. Find a sequence \alpha \in T \ K, such that either Lemma 2
+		 * or Lemma 3 can be applied. If no such a sequence
+		 * exists, go to Step 6.
+		 */
+		
+		/*  
+		 * 5. Include \alpha in K and go to Step 4. 
+		 * */
+		
+		/* 
+		 * 6. If K satisfies Theorem 1, then terminate with the
+		 * answer True. 
+		 * */
+		
+		/* 
+		 * 7. Include K in L and go to Step 3. 
+		 * */
+		
 
 		try {
 			File testTreeFile 	= new File(testFile_str+"_tree.dot");
@@ -43,7 +82,15 @@ public class CheckCompleteness {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		/* Output: True, if T is n-complete according to Theorems 1 and 2. */
 		System.out.println(model);
+	}
+
+	private static DirectedGraph<FsmState, DefaultEdge> createDistinguishabilityGraph(FsmTestTree testTree) {
+		DirectedMultigraph<FsmState, DefaultEdge> dg = new DirectedMultigraph<FsmState, DefaultEdge>(DefaultEdge.class);
+		
+		return null;
 	}
 
 	private static FsmTest loadFsmTest(File testFile) {
