@@ -14,6 +14,8 @@ import com.usp.icmc.labes.fsm.FsmTransition;
 
 public class DistinguishGraphUtils {
 	
+	public static final String label_name = "_label_";
+	
 	private static DistinguishGraphUtils instance;
 	
 	private DistinguishGraphUtils() { }

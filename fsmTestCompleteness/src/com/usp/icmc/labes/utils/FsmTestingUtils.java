@@ -23,8 +23,6 @@ import com.usp.icmc.labes.fsm.FsmTransition;
 public class FsmTestingUtils {
 	
 	public static final String property_name = "_name_";
-	public static final String label_name = "_label_";
-
 	
 	private static FsmTestingUtils instance;
 	
