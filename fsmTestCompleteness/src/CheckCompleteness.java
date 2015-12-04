@@ -45,8 +45,8 @@ public class CheckCompleteness {
 
 		/* 1. Build the distinguishability graph G of T . */
 		FsmTestTree testTree = new FsmTestTree(model, test);
-		UndirectedGraph<FsmState, DefaultEdge> distinguishabilityGraph;
-		distinguishabilityGraph = createDistinguishabilityGraph(testTree);
+		UndirectedGraph<FsmState, DefaultEdge> dg;
+		dg = createDistinguishabilityGraph(testTree);
 		
 		/* 2. Let L be the empty set. */
 		Set<FsmState> l_set = new HashSet<FsmState>();
@@ -85,7 +85,7 @@ public class CheckCompleteness {
 			saveTestTree(testTree,testTreeFile);
 			
 			File dgFile 	= new File(testFile_str+"_dg.dot");
-			saveDistinguishabilityGraph(distinguishabilityGraph,dgFile);
+			saveDistinguishabilityGraph(dg,dgFile);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -95,7 +95,7 @@ public class CheckCompleteness {
 		System.out.println(model);
 	}
 
-	private static void saveDistinguishabilityGraph(UndirectedGraph<FsmState, DefaultEdge> distinguishabilityGraph,
+	private static void saveDistinguishabilityGraph(UndirectedGraph<FsmState, DefaultEdge> graph,
 			File f) throws FileNotFoundException {
 		
 		PrintWriter pw = new PrintWriter(f);
@@ -109,7 +109,8 @@ public class CheckCompleteness {
 //		transit.addAll(fsm.getTransitions());
 
 		pw.println("graph g {");
-
+		
+		
 //				List<Integer> ids = new ArrayList<Integer>();
 //				for (FsmState st : fsm.getStates()) ids.add((Integer) st.getProperties().get("name"));
 //
@@ -131,11 +132,12 @@ public class CheckCompleteness {
 //				}
 
 
-		for (DefaultEdge edge : distinguishabilityGraph.edgeSet()) {
-			from 	= ((FsmState)edge.getTarget()).getId();
-			to 		= ((FsmState)edge.getSource()).getId();
+		for (DefaultEdge edge : graph.edgeSet()) {
+			
+			from 	= ((FsmState)graph.getEdgeTarget(edge)).getId();
+			to 		= ((FsmState)graph.getEdgeSource(edge)).getId();
 			pw.println("\t"+Integer.toString(from)
-			+" -> "
+			+" -- "
 			+Integer.toString(to) 			
 			//+" [label=\""+in+" / "+out+"\"]"
 					+ ";");
