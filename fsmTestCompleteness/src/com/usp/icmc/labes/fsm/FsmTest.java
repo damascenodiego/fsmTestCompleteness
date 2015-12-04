@@ -12,4 +12,13 @@ public class FsmTest extends FsmElement{
 		testSequence = new ArrayList<String>();
 	}
 	
+	public List<String> getTestSequence() {
+		return testSequence;
+	}
+	
+	public void setTestSequence(List<String> testSequence) {
+		this.testSequence = testSequence;
+	}
+	
+	
 }

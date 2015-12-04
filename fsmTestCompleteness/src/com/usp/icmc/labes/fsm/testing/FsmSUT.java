@@ -77,10 +77,36 @@ public class FsmSUT {
 		return "";
 	}
 	
+	public String input(char in){
+		for (int i = 0; i < currentState.getOut().size(); i++) {
+			FsmTransition tr = currentState.getOut().get(i);
+			if(tr.getInput().charAt(0)==(in)){
+				currentState = tr.getTo();
+				lastInput = tr.getInput();
+				lastOutput = tr.getOutput();
+				return tr.getOutput();
+			}
+		}
+		return "";
+	}
+	
 	public FsmTransition inputReturnsFsmTransition(String in){
 		for (int i = 0; i < currentState.getOut().size(); i++) {
 			FsmTransition tr = currentState.getOut().get(i);
 			if(tr.getInput().equals(in)){
+				currentState = tr.getTo();
+				lastInput = tr.getInput();
+				lastOutput = tr.getOutput();
+				return tr;
+			}
+		}
+		return null;
+	}
+	
+	public FsmTransition inputReturnsFsmTransition(char in){
+		for (int i = 0; i < currentState.getOut().size(); i++) {
+			FsmTransition tr = currentState.getOut().get(i);
+			if(tr.getInput().charAt(0)==(in)){
 				currentState = tr.getTo();
 				lastInput = tr.getInput();
 				lastOutput = tr.getOutput();

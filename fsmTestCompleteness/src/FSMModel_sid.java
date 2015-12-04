@@ -6,7 +6,7 @@ import org.jgraph.graph.DefaultEdge;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.DirectedMultigraph;
 
-public class FSMModel {
+public class FSMModel_sid {
 
 	static DirectedGraph<Object, DefaultEdge> fsm;
 	
