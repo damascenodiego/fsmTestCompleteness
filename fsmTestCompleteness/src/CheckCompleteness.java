@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.Set;
 import org.jgraph.graph.DefaultEdge;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.UndirectedGraph;
+import org.jgrapht.alg.BronKerboschCliqueFinder;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleGraph;
 
@@ -62,6 +64,12 @@ public class CheckCompleteness {
 		 * then terminate with the answer False.
 		 */
 		
+		BronKerboschCliqueFinder<FsmState, DefaultEdge> cliqueFinder = new BronKerboschCliqueFinder<FsmState, DefaultEdge>(dg);
+		Collection<Set<FsmState>> maxCliques = cliqueFinder.getBiggestMaximalCliques();
+		
+		Set<FsmState> k_set = new HashSet<FsmState>();
+		
+		
 		/*  
 		 * 4. Find a sequence \alpha \in T \ K, such that either Lemma 2
 		 * or Lemma 3 can be applied. If no such a sequence
@@ -76,6 +84,8 @@ public class CheckCompleteness {
 		 * 6. If K satisfies Theorem 1, then terminate with the
 		 * answer True. 
 		 * */
+		
+		
 		
 		/* 
 		 * 7. Include K in L and go to Step 3. 
