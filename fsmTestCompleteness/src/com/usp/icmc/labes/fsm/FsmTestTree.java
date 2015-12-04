@@ -17,7 +17,7 @@ public class FsmTestTree extends FsmModel{
 	public FsmTestTree(FsmModel model, FsmTest test){
 		fsm = model;
 		testSequence = test;
-		FsmState empty = new FsmState(0);
+		FsmState empty = getOrCreateState(0);
 		addState(empty);
 		setInitialState(empty);
 		sut = new FsmSUT(fsm);
@@ -39,9 +39,10 @@ public class FsmTestTree extends FsmModel{
 				FsmTransition tr = new FsmTransition(getOrCreateState(testTreeSut.getCurrentState()), sut.getLastInput(), sut.getLastOutput(), getOrCreateState(++counter));
 				addTransition(tr);
 				int toId = sut.getCurrentState().getId();
-				tr.getTo().getProperties().put("name", toId);
-				tr.getFrom().getProperties().put("name", fromId);
 				testTreeSut.input(string.charAt(i));
+				
+//				tr.getTo().getProperties().put("name", toId);
+//				tr.getFrom().getProperties().put("name", fromId);
 			}
 			sut.setCurrentState(sut.getSut().getInitialState());
 			testTreeSut.setCurrentState(testTreeSut.getSut().getInitialState());

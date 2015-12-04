@@ -125,7 +125,7 @@ public class CheckCompleteness {
 	}
 
 
-	public static void saveTestTree(FsmTestTree fsm, File f) throws FileNotFoundException{
+	private static void saveTestTree(FsmTestTree fsm, File f) throws FileNotFoundException{
 		PrintWriter pw = new PrintWriter(f);
 
 		int from;
@@ -138,15 +138,25 @@ public class CheckCompleteness {
 
 		pw.println("digraph g {");
 
-		pw.println("\t{");
-		List<Integer> ids = new ArrayList<Integer>();
-		for (FsmState st : fsm.getStates()) ids.add((Integer) st.getProperties().get("name")); 		
-		for (FsmState st : fsm.getStates()) {
-			pw.println("\t\t"+ 
-					Integer.toString(st.getId())
-					+" [style=filled, fillcolor="+getColor(ids.indexOf(st.getProperties().get("name")))+ "];");
-		}
-		pw.println("\t}");
+		//		List<Integer> ids = new ArrayList<Integer>();
+		//		for (FsmState st : fsm.getStates()) ids.add((Integer) st.getProperties().get("name"));
+
+		//		pw.println("\t{");
+		//		for (FsmState st : fsm.getStates()) {
+		//			pw.println("\t\t"+ 
+		//					Integer.toString(st.getId())
+		//					+" [style=filled, fillcolor="+getColor(ids.indexOf(st.getProperties().get("name")))+ "];");
+		//		}
+		//		pw.println("\t}");
+
+		//		for (FsmState st : fsm.getStates()) {
+		//			int realState = (Integer)st.getProperties().get("name");
+		//			pw.println("\tsubgraph cluster_sub"
+		//					+Integer.toString(st.getId())
+		//					+"{ "+Integer.toString(st.getId())+";"
+		//					+"\tlabel = \"state "+realState+"\";"
+		//					+ " color=white}");
+		//		}
 
 
 		for (FsmTransition tr : transit) {
@@ -164,10 +174,10 @@ public class CheckCompleteness {
 	}
 	private static String getColor(int num){
 		String[] colors = {"aliceblue","beige","blueviolet","chocolate","cyan","darkgreen","darkorange","darkslateblue","deeppink","firebrick","ghostwhite","green","indigo","lawngreen","lightgoldenrodyellow","lightsalmon","lightsteelblue","magenta","mediumpurple","mediumvioletred","navajowhite","orange","paleturquoise","pink","rosybrown","seagreen","slateblue","steelblue","turquoise","yellow","antiquewhite","bisque","brown","coral","darkblue","darkgrey","darkorchid","darkslategray","deepskyblue","floralwhite","gold","greenyellow","ivory","lemonchiffon","lightgray","lightseagreen","lightyellow","maroon","mediumseagreen","midnightblue","navy","orangered","palevioletred","plum","royalblue","seashell","slategray","tan","violet","yellowgreen","aqua","black","burlywood","cornflowerblue","darkcyan","darkkhaki","darkred","darkslategrey","dimgray","forestgreen","goldenrod","honeydew","khaki","lightblue","lightgreen","lightskyblue","lime","mediumaquamarine","mediumslateblue","mintcream","oldlace","orchid","papayawhip","powderblue","saddlebrown","sienna","slategrey","teal","wheat","aquamarine","blanchedalmond","cadetblue","cornsilk","darkgoldenrod","darkmagenta","darksalmon","darkturquoise","dimgrey","fuchsia","gray","hotpink","lavender","lightcoral","lightgrey","lightslategray","limegreen","mediumblue","mediumspringgreen","mistyrose","olive","palegoldenrod","peachpuff","purple","salmon","silver","snow","thistle","white","azure","blue","chartreuse","crimson","darkgray","darkolivegreen","darkseagreen","darkviolet","dodgerblue","gainsboro","grey","indianred","lavenderblush","lightcyan","lightpink","lightslategrey","linen","mediumorchid","mediumturquoise","moccasin","olivedrab","palegreen","peru","red","sandybrown","skyblue","springgreen","tomato","whitesmoke"};
-		
+
 		if(colors.length<num) return colors[0];
 		else return colors[num];
-		
+
 	}
-	
+
 }
