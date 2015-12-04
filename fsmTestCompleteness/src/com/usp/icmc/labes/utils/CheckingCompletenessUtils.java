@@ -3,6 +3,7 @@ package com.usp.icmc.labes.utils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Map;
 import java.util.Set;
 
 import org.jgraph.graph.DefaultEdge;
@@ -27,16 +28,34 @@ public class CheckingCompletenessUtils {
 		return instance;
 	}
 
+	/**
+	 * @param alpha This is the FsmState of a FsmTestTree which represents a test sequence.
+	 * @param k_set This is the set of cliques obtained from a distinguishability graph and which alpha must match n-1 elements to be linked 
+	 * @param dg This is the graph where alpha will be connected to one of the elements from k_set if it can be distinguished from n-1 elements
+	 * @return TRUE if alpha can be distinguished from n-1 states from k_set 
+	 */
 	public boolean canApplyLemma2(FsmState alpha, Set<FsmState> k_set, UndirectedGraph<FsmState, DefaultEdge> dg) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean canApplyLemma3(FsmState alpha, Set<FsmState> k_set, UndirectedGraph<FsmState, DefaultEdge> dg) {
+	/**
+ 	 * @param alpha This is the FsmState of a FsmTestTree which represents a test sequence.
+	 * @param labels This collections maps states to its labels.
+	 * @param 	dg This is the graph where two beta and chi sequences converging to a same state will be searched. 
+	 * 			Alpha is prefix of chi extended with gamma. All beta,beta+gamma,chi, and chi+gamma (alpha) all belong to dg
+	 * @return returns true if beta,beta+gamma,chi, and chi+gamma (alpha) all exist return TRUE
+	 */
+	public boolean canApplyLemma3(FsmState alpha, Map<Integer, Set<FsmState>> labels, UndirectedGraph<FsmState, DefaultEdge> dg) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * @param k_set The set of sequences which must contain state and transition cover in order to return true.
+	 * @param model	the model where each sequence will be applied in order to check state and transition coverage
+	 * @return TRUE if k_set contains state and transition cover. In the paper it is described as empty sequence, alpha and alpha+x.
+	 */
 	public boolean satisfiesTheorem1(Set<FsmState> k_set, FsmModel model) {
 		// TODO Auto-generated method stub
 		return false;

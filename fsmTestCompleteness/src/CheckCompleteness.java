@@ -89,7 +89,7 @@ public class CheckCompleteness {
 			for (FsmState alpha: t) {
 				if(k_set.contains(t)) continue;
 				// such that either Lemma 2 or Lemma 3 can be applied.
-				if(ccutils.canApplyLemma2(alpha,k_set,dg) || ccutils.canApplyLemma3(alpha,k_set,dg)){
+				if(ccutils.canApplyLemma2(alpha,k_set,dg) || ccutils.canApplyLemma3(alpha,labels,dg)){
 					/* 5. Include \alpha in K and go to Step 4. */
 					k_set.add(alpha);
 
