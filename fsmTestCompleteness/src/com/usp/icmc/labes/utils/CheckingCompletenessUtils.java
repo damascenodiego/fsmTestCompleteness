@@ -1,6 +1,9 @@
 package com.usp.icmc.labes.utils;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,20 +12,21 @@ import org.jgrapht.UndirectedGraph;
 
 import com.usp.icmc.labes.fsm.FsmModel;
 import com.usp.icmc.labes.fsm.FsmState;
+import com.usp.icmc.labes.fsm.FsmTransition;
 
 public class CheckingCompletenessUtils {
-	
+
 	public static final String label_name = "_label_";
-	
+
 	private static CheckingCompletenessUtils instance;
-	
+
 	private CheckingCompletenessUtils() { }
-	
+
 	public static CheckingCompletenessUtils getInstance() {
 		if(instance==null) instance = new CheckingCompletenessUtils();
 		return instance;
 	}
-	
+
 	/**
 	 * @param alpha This is the FsmState of a FsmTestTree which represents a test sequence.
 	 * @param labels This collections maps states to its labels.
@@ -31,33 +35,105 @@ public class CheckingCompletenessUtils {
 	 * @return TRUE if alpha can be distinguished from n-1 states from k_set 
 	 */	
 	public boolean canApplyLemma2(FsmState alpha, Map<Integer, Set<FsmState>> labels, Set<FsmState> k_set, UndirectedGraph<FsmState, DefaultEdge> dg) {		
-		Set<FsmState> distinguished_set = new HashSet<FsmState>();		
-		distinguished_set.clear();
-		
-		/* obtain distinguishable states */ 
-		for (FsmState s: k_set) {			
-			if(s.equals(alpha)) return true;	
-			if(!dg.containsEdge(alpha,s)) distinguished_set.add(s);		
-		}
-		
 		/* when distinguishable add alpha in the labels */
-		for (Integer key : labels.keySet())				
-			if(labels.get(key).containsAll(distinguished_set)) 
-				return labels.get(key).add(alpha);
-			
+		List<Integer> notConnected = new ArrayList<Integer>();
+		notConnected.addAll(labels.keySet());
+		for (Integer key : labels.keySet()){
+			for(FsmState s: labels.get(key))
+				if(dg.containsEdge(alpha,s)){
+					notConnected.remove(key);
+					break;
+				}
+		}
+
+		if(notConnected.size()==1){
+			labels.get(notConnected.get(0)).add(alpha);
+			return true;
+		}
+
 		return false;
 	}
 
 	/**
- 	 * @param alpha This is the FsmState of a FsmTestTree which represents a test sequence.
+	 * @param alpha This is the FsmState of a FsmTestTree which represents a test sequence.
 	 * @param labels This collections maps states to its labels.
 	 * @param 	dg This is the graph where two beta and chi sequences converging to a same state will be searched. 
 	 * 			Alpha is prefix of chi extended with gamma. All beta,beta+gamma,chi, and chi+gamma (alpha) all belong to dg
 	 * @return returns true if beta,beta+gamma,chi, and chi+gamma (alpha) all exist return TRUE
 	 */
-	public boolean canApplyLemma3(FsmState alpha, Map<Integer, Set<FsmState>> labels, UndirectedGraph<FsmState, DefaultEdge> dg) {
-		// TODO Auto-generated method stub
+	public boolean canApplyLemma3(FsmState alphaState, Map<Integer, Set<FsmState>> labels, Set<FsmState> k_set, UndirectedGraph<FsmState, DefaultEdge> dg) {
+		//TODO search until the root of the tree
+
+		// get phi sequence
+		List<FsmTransition> phi = getPhi(alphaState,k_set);
+
+		if(phi.size()>0){
+			FsmState chiState = phi.get(0).getFrom();
+			Integer chiLabel = null;
+
+			Set<FsmState> labeledAsChi = new HashSet<FsmState>();
+
+			for (Integer l : labels.keySet()) {
+				if(labels.get(l).contains(chiState)){
+					chiLabel = l;
+					labeledAsChi.addAll(labels.get(l)); 
+					break;
+				}
+			}
+
+			for (FsmState beta : labeledAsChi) {
+				FsmState betaPhi = applySequence(beta,phi);
+				if(betaPhi != null){
+					Integer betaPhiLabel = getLabel(betaPhi,labels);
+					if(betaPhiLabel != null){
+						labels.get(betaPhiLabel).add(alphaState);
+						return true;
+					}
+
+				}
+			}
+		}
+
 		return false;
+	}
+
+
+	private Integer getLabel(FsmState betaPhi, Map<Integer, Set<FsmState>> labels) {
+
+		for (Integer l : labels.keySet()) {
+			if(labels.get(l).contains(betaPhi)) return l;
+		}
+		return null;
+	}
+
+	private FsmState applySequence(FsmState beta, List<FsmTransition> phi) {
+		FsmState s = beta;
+
+		for (FsmTransition in : phi) {
+			if(s.getOut().size()==0) return null;
+			for (FsmTransition sTo : s.getOut()) {
+				if(sTo.getInput().equals(in.getInput())) {
+					s = sTo.getTo();
+					break;
+				}else{
+					return null;
+				}
+			}
+		}
+		return s;
+	}
+
+	private List<FsmTransition> getPhi(FsmState alpha, Set<FsmState> k) {
+		List<FsmTransition> phi = new ArrayList<FsmTransition>();
+
+		FsmState s = alpha;
+
+		while (!k.contains(s)) {
+			phi.add(s.getIn().get(0));
+			s = s.getIn().get(0).getFrom();
+		}
+		Collections.reverse(phi);
+		return phi;
 	}
 
 	/**
@@ -69,7 +145,7 @@ public class CheckingCompletenessUtils {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	/**
 	 * @param set
 	 * @param n 
@@ -78,5 +154,5 @@ public class CheckingCompletenessUtils {
 	public boolean checkClique(Set<FsmState> set, Integer n) {
 		return (set.size() == n);
 	}
-	
+
 }

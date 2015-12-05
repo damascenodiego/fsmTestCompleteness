@@ -58,17 +58,20 @@ public class CheckCompleteness {
 		Set<FsmState> k_set = new HashSet<FsmState>();
 		Set<FsmState> t = new HashSet<FsmState>(); t.addAll(testTree.getStates());
 		Map<Integer,Set<FsmState>> labels = new HashMap<Integer,Set<FsmState>>();
-		
+
+		int counter = -1;
 		for (Set<FsmState> set : maxCliques) {
-			
+			counter++;
+			if(counter != 6) continue; 
+
 			System.out.println("clique: " + set + "\t" + ccutils.checkClique(set, 4));
-			
-			if(!ccutils.checkClique(set, 4)) continue;
-			
+
+			if(!ccutils.checkClique(set, model.getStates().size())) continue;
+
 			k_set.clear(); k_set.addAll(set);
 
 			if(l_set.containsAll(k_set)) continue;
-			
+
 			labels.clear();
 			int label_int = 0;
 			for (FsmState s : k_set) {
@@ -77,34 +80,36 @@ public class CheckCompleteness {
 				label_int++;
 			}
 
-			// 4. Find a sequence \alpha \in T \ K
-			for (FsmState alpha: t) {
-				if(k_set.contains(t)) continue; 
-				// such that either Lemma 2 or Lemma 3 can be applied.
-				
-				if(ccutils.canApplyLemma2(alpha,labels,k_set,dg) || ccutils.canApplyLemma3(alpha,labels,dg)){
-					/* 5. Include \alpha in K and go to Step 4. */
-					k_set.add(alpha);
-				}
-				
-				/* If no such a sequence exists, go to Step 6. */
-				/* 6. If K satisfies Theorem 1, then terminate with the answer True. */
-				if(ccutils.satisfiesTheorem1(k_set,model)) {
-					/* Output: True, if T is n-complete according to Theorems 1 and 2. */
-					System.out.println("TRUE!!!");
-					System.exit(0);
+			for (int i = 0; i < testTree.getStates().size()-model.getStates().size(); i++) {
+				// 4. Find a sequence \alpha \in T \ K
+				for (FsmState alpha: t) {
+					if(k_set.contains(t)) continue; 
+					// such that either Lemma 2 or Lemma 3 can be applied.
+
+					if(ccutils.canApplyLemma2(alpha,labels,k_set,dg) || ccutils.canApplyLemma3(alpha,labels,k_set,dg)){
+						/* 5. Include \alpha in K and go to Step 4. */
+						k_set.add(alpha);
+					}
+
+					/* If no such a sequence exists, go to Step 6. */
+					/* 6. If K satisfies Theorem 1, then terminate with the answer True. */
+					if(ccutils.satisfiesTheorem1(k_set,model)) {
+						/* Output: True, if T is n-complete according to Theorems 1 and 2. */
+						System.out.println("TRUE!!!");
+						System.exit(0);
+					}
+
+					/* 7. Include K in L and go to Step 3. */
+					l_set.addAll(k_set);
 				}
 
-				/* 7. Include K in L and go to Step 3. */
-				l_set.addAll(k_set);
+				System.out.println("labels: " + labels);
+				System.out.println("k_set: " + k_set);
+
 			}
-			
-			System.out.println("labels: " + labels);
-			System.out.println("k_set: " + k_set);
-			
 			/* Output: True, if T is n-complete according to Theorems 1 and 2. */
 			System.out.println("FALSE!!!");
-			//System.exit(1);
+			System.exit(1);
 
 		}
 		//		try {
