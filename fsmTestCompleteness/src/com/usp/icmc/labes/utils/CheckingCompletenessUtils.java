@@ -64,7 +64,7 @@ public class CheckingCompletenessUtils {
 		/* set difference between k_set and k_clone */
 		k_clone.removeAll(setDistinguished);
 		
-		/* */
+		/* when distinguishable add alpha in the labels */
 		if(setDistinguished.size() == k_set.size()-1) {			
 			for (Integer key : labels.keySet())				
 				if(labels.get(key).containsAll(k_clone)) labels.get(key).add(alpha);
