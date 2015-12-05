@@ -1,0 +1,43 @@
+digraph g {
+	{
+		0 [style=filled, fillcolor=aliceblue];
+		1 [style=filled, fillcolor=beige];
+		2 [style=filled, fillcolor=beige];
+		3 [style=filled, fillcolor=chocolate];
+		4 [style=filled, fillcolor=chocolate];
+		5 [style=filled, fillcolor=chocolate];
+		6 [style=filled, fillcolor=darkorange];
+		7 [style=filled, fillcolor=aliceblue];
+		8 [style=filled, fillcolor=beige];
+		9 [style=filled, fillcolor=chocolate];
+		10 [style=filled, fillcolor=chocolate];
+		11 [style=filled, fillcolor=chocolate];
+		12 [style=filled, fillcolor=chocolate];
+		13 [style=filled, fillcolor=chocolate];
+		14 [style=filled, fillcolor=chocolate];
+		15 [style=filled, fillcolor=chocolate];
+		16 [style=filled, fillcolor=darkorange];
+		17 [style=filled, fillcolor=aliceblue];
+		18 [style=filled, fillcolor=beige];
+		19 [style=filled, fillcolor=chocolate];
+	}
+	0 -> 1 [label="y / 0"];
+	1 -> 2 [label="x / 1"];
+	2 -> 3 [label="y / 1"];
+	3 -> 4 [label="y / 0"];
+	4 -> 5 [label="y / 0"];
+	0 -> 6 [label="x / 1"];
+	6 -> 7 [label="y / 0"];
+	7 -> 8 [label="y / 0"];
+	8 -> 9 [label="y / 1"];
+	9 -> 10 [label="y / 0"];
+	1 -> 11 [label="y / 1"];
+	11 -> 12 [label="y / 0"];
+	12 -> 13 [label="y / 0"];
+	13 -> 14 [label="y / 0"];
+	14 -> 15 [label="y / 0"];
+	11 -> 16 [label="x / 1"];
+	16 -> 17 [label="y / 0"];
+	17 -> 18 [label="y / 0"];
+	18 -> 19 [label="y / 1"];
+}
