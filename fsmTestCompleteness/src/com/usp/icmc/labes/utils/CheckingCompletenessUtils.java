@@ -54,7 +54,7 @@ public class CheckingCompletenessUtils {
 		setDistinguished.clear();
 		
 		for (FsmState s: k_set) {			
-			if(s.equals(alpha)) return true;
+			if(s.equals(alpha)) return true;	
 			if(dg.containsEdge(alpha,s)) setDistinguished.add(s);		
 		}
 		
@@ -65,11 +65,13 @@ public class CheckingCompletenessUtils {
 		k_clone.removeAll(setDistinguished);
 		
 		/* when distinguishable add alpha in the labels */
-		if(setDistinguished.size() == k_set.size()-1) {			
-			for (Integer key : labels.keySet())				
-				if(labels.get(key).containsAll(k_clone)) labels.get(key).add(alpha);
-			return true;		
-		} else return false;
+		for (Integer key : labels.keySet())				
+			if(labels.get(key).containsAll(k_clone)) { 
+				labels.get(key).add(alpha);
+				return true;
+			}
+			
+		return false;
 	}
 
 	/**
