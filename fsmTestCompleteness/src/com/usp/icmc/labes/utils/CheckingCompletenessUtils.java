@@ -1,19 +1,14 @@
 package com.usp.icmc.labes.utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.jgraph.graph.DefaultEdge;
 import org.jgrapht.UndirectedGraph;
-import org.jgrapht.graph.SimpleGraph;
 
 import com.usp.icmc.labes.fsm.FsmModel;
 import com.usp.icmc.labes.fsm.FsmState;
-import com.usp.icmc.labes.fsm.FsmTestTree;
-import com.usp.icmc.labes.fsm.FsmTransition;
 
 public class CheckingCompletenessUtils {
 	
@@ -34,9 +29,47 @@ public class CheckingCompletenessUtils {
 	 * @param dg This is the graph where alpha will be connected to one of the elements from k_set if it can be distinguished from n-1 elements
 	 * @return TRUE if alpha can be distinguished from n-1 states from k_set 
 	 */
-	public boolean canApplyLemma2(FsmState alpha, Set<FsmState> k_set, UndirectedGraph<FsmState, DefaultEdge> dg) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean canApplyLemma2(FsmState alpha, Set<FsmState> k_set, UndirectedGraph<FsmState, DefaultEdge> dg) {		
+		Set<FsmState> setDistinguished = new HashSet<FsmState>();		
+		setDistinguished.clear();
+		
+		for (FsmState s: k_set) {			
+			if(s.equals(alpha)) return true;
+			if(dg.containsEdge(alpha,s)) setDistinguished.add(s);		
+		}
+		
+		if(setDistinguished.size() != k_set.size()-1) return false;
+		else return true;
+	}
+	
+	/**
+	 * @param alpha This is the FsmState of a FsmTestTree which represents a test sequence.
+	 * @param labels This collections maps states to its labels.
+	 * @param k_set This is the set of cliques obtained from a distinguishability graph and which alpha must match n-1 elements to be linked 
+	 * @param dg This is the graph where alpha will be connected to one of the elements from k_set if it can be distinguished from n-1 elements
+	 * @return TRUE if alpha can be distinguished from n-1 states from k_set 
+	 */	
+	public boolean canApplyLemma2(FsmState alpha, Map<Integer, Set<FsmState>> labels, Set<FsmState> k_set, UndirectedGraph<FsmState, DefaultEdge> dg) {		
+		Set<FsmState> setDistinguished = new HashSet<FsmState>();		
+		setDistinguished.clear();
+		
+		for (FsmState s: k_set) {			
+			if(s.equals(alpha)) return true;
+			if(dg.containsEdge(alpha,s)) setDistinguished.add(s);		
+		}
+		
+		/* k_clone is used for finding the label of the alpha */
+		Set<FsmState> k_clone = new HashSet<FsmState>(k_set);			
+		
+		/* set difference between k_set and k_clone */
+		k_clone.removeAll(setDistinguished);
+		
+		/* */
+		if(setDistinguished.size() == k_set.size()-1) {			
+			for (Integer key : labels.keySet())				
+				if(labels.get(key).containsAll(k_clone)) labels.get(key).add(alpha);
+			return true;		
+		} else return false;
 	}
 
 	/**

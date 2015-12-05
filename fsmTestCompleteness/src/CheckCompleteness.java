@@ -1,30 +1,18 @@
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 
 import org.jgraph.graph.DefaultEdge;
-import org.jgrapht.DirectedGraph;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.alg.BronKerboschCliqueFinder;
-import org.jgrapht.graph.DirectedMultigraph;
-import org.jgrapht.graph.SimpleGraph;
 
 import com.usp.icmc.labes.fsm.FsmModel;
 import com.usp.icmc.labes.fsm.FsmState;
 import com.usp.icmc.labes.fsm.FsmTest;
 import com.usp.icmc.labes.fsm.FsmTestTree;
-import com.usp.icmc.labes.fsm.FsmTransition;
 import com.usp.icmc.labes.utils.CheckingCompletenessUtils;
 import com.usp.icmc.labes.utils.DistinguishGraphUtils;
 import com.usp.icmc.labes.utils.FsmTestingUtils;
@@ -68,12 +56,12 @@ public class CheckCompleteness {
 		Collection<Set<FsmState>> maxCliques = cliqueFinder.getBiggestMaximalCliques();
 
 		Set<FsmState> k_set = new HashSet<FsmState>();
-		Set<FsmState> t = new HashSet<FsmState>(); t.addAll(testTree.getStates()); 
-		Map<Integer,Set<FsmState>> labels = new HashMap<Integer,Set<FsmState>>();  
+		Set<FsmState> t = new HashSet<FsmState>(); t.addAll(testTree.getStates());
+		Map<Integer,Set<FsmState>> labels = new HashMap<Integer,Set<FsmState>>();
 
 		for (Set<FsmState> set : maxCliques) {
 
-			k_set.clear(); k_set.addAll(set);
+			k_set.clear(); k_set.addAll(set);  
 
 			if(l_set.containsAll(k_set)) continue;
 
@@ -87,9 +75,11 @@ public class CheckCompleteness {
 
 			// 4. Find a sequence \alpha \in T \ K
 			for (FsmState alpha: t) {
-				if(k_set.contains(t)) continue;
-				// such that either Lemma 2 or Lemma 3 can be applied.
-				if(ccutils.canApplyLemma2(alpha,k_set,dg) || ccutils.canApplyLemma3(alpha,labels,dg)){
+				if(k_set.contains(t)) continue; 
+				// such that either Lemma 2 or Lemma 3 can be applied.				
+				
+				//if(ccutils.canApplyLemma2(alpha,k_set,dg) || ccutils.canApplyLemma3(alpha,labels,dg)){
+				if(ccutils.canApplyLemma2(alpha,labels,k_set,dg) || ccutils.canApplyLemma3(alpha,labels,dg)){
 					/* 5. Include \alpha in K and go to Step 4. */
 					k_set.add(alpha);
 
