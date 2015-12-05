@@ -13,6 +13,7 @@ import org.jgrapht.UndirectedGraph;
 import com.usp.icmc.labes.fsm.FsmModel;
 import com.usp.icmc.labes.fsm.FsmState;
 import com.usp.icmc.labes.fsm.FsmTransition;
+import com.usp.icmc.labes.fsm.testing.FsmSUT;
 
 public class CheckingCompletenessUtils {
 
@@ -128,7 +129,7 @@ public class CheckingCompletenessUtils {
 
 		FsmState s = alpha;
 
-		while (!k.contains(s)) {
+		while (!k.contains(s) && s.getIn().size()>0) {
 			phi.add(s.getIn().get(0));
 			s = s.getIn().get(0).getFrom();
 		}
@@ -137,13 +138,39 @@ public class CheckingCompletenessUtils {
 	}
 
 	/**
-	 * @param k_set The set of sequences which must contain state and transition cover in order to return true.
+	 * @param k_set The set of sequences which must  contain state and transition cover in order to return true.
 	 * @param model	the model where each sequence will be applied in order to check state and transition coverage
 	 * @return TRUE if k_set contains state and transition cover. In the paper it is described as empty sequence, alpha and alpha+x.
 	 */
-	public boolean satisfiesTheorem1(Set<FsmState> k_set, FsmModel model) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean satisfiesTheorem1(Set<FsmState> k_set, FsmModel model, FsmModel testTree) {
+		FsmTestingUtils testutils = FsmTestingUtils.getInstance();
+		
+		FsmSUT sut = new FsmSUT(model);
+
+		Set<FsmTransition> 	coveredTr = new HashSet<FsmTransition> ();
+		Set<FsmState> 		coveredSt = new HashSet<FsmState> ();
+		
+		FsmTransition currentTr = null;
+
+		// check if empty sequence belongs to k
+		if(k_set.contains(testTree.getInitialState())) coveredSt.add(model.getInitialState());
+		
+		for (FsmState seq : k_set) {
+			// get sequence seq by traversing test tree
+			List<FsmTransition> inSeq = testutils.getSequence(seq);
+			for (FsmTransition in : inSeq) {
+				// get each covered transitions
+				currentTr = sut.inputReturnsFsmTransition(in.getInput());
+				if(currentTr!=null){
+					// keep covered states
+					coveredSt.add(currentTr.getFrom()); coveredSt.add(currentTr.getTo());
+					// keep covered transitions
+					coveredTr.add(currentTr);
+				}
+			}
+			sut.setCurrentState(sut.getSut().getInitialState());			
+		}
+		return (model.getStates().containsAll(coveredSt) && model.getTransitions().containsAll(coveredTr));
 	}
 
 	/**

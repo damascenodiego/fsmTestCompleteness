@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,6 +108,20 @@ public class FsmTestingUtils {
 
 	}
 
+	public List<FsmTransition> getSequence(FsmState alpha) {
+		List<FsmTransition> phi = new ArrayList<FsmTransition>();
+
+		FsmState s = alpha;
+
+		while (s.getIn().size()>0) {
+			phi.add(s.getIn().get(0));
+			s = s.getIn().get(0).getFrom();
+		}
+		Collections.reverse(phi);
+		return phi;
+	}
+
+	
 	public FsmState createState(String name) {
 		FsmState out = new FsmState(name.hashCode());
 		out.getProperties().put(property_name, name);

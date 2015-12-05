@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -59,18 +60,17 @@ public class CheckCompleteness {
 		Set<FsmState> t = new HashSet<FsmState>(); t.addAll(testTree.getStates());
 		Map<Integer,Set<FsmState>> labels = new HashMap<Integer,Set<FsmState>>();
 
-		int counter = -1;
+		//		int counter = -1;
 		for (Set<FsmState> set : maxCliques) {
-			counter++;
-			if(counter != 6) continue; 
+			//			counter++; if(counter != 6) continue; 
 
-			System.out.println("clique: " + set + "\t" + ccutils.checkClique(set, 4));
+			//			System.out.println("clique: " + set + "\t" + ccutils.checkClique(set, 4));
 
 			if(!ccutils.checkClique(set, model.getStates().size())) continue;
 
 			k_set.clear(); k_set.addAll(set);
 
-			if(l_set.containsAll(k_set)) continue;
+			if(!Collections.disjoint(l_set,k_set)) continue;
 
 			labels.clear();
 			int label_int = 0;
@@ -90,28 +90,30 @@ public class CheckCompleteness {
 						/* 5. Include \alpha in K and go to Step 4. */
 						k_set.add(alpha);
 					}
-
-					/* If no such a sequence exists, go to Step 6. */
-					/* 6. If K satisfies Theorem 1, then terminate with the answer True. */
-					if(ccutils.satisfiesTheorem1(k_set,model)) {
-						/* Output: True, if T is n-complete according to Theorems 1 and 2. */
-						System.out.println("TRUE!!!");
-						System.exit(0);
-					}
-
-					/* 7. Include K in L and go to Step 3. */
-					l_set.addAll(k_set);
 				}
 
-				System.out.println("labels: " + labels);
-				System.out.println("k_set: " + k_set);
-
 			}
-			/* Output: True, if T is n-complete according to Theorems 1 and 2. */
-			System.out.println("FALSE!!!");
-			System.exit(1);
+			/* If no such a sequence exists, go to Step 6. */
+			/* 6. If K satisfies Theorem 1, then terminate with the answer True. */
+			if(ccutils.satisfiesTheorem1(k_set,model,testTree)) {
+				/* Output: True, if T is n-complete according to Theorems 1 and 2. */
+				//for (FsmState s : k_set)  System.out.println(testutils.getSequence(s));
+				System.out.println("the set is n-complete!");
+				System.exit(0);
+			}
+
+			/* 7. Include K in L and go to Step 3. */
+			l_set.addAll(k_set);
+
+			System.out.println("labels: " + labels);
+			System.out.println("k_set: " + k_set);
+
 
 		}
+		/* Output: False, if T is not n-complete according to Theorems 1 and 2. */
+		System.out.println("the set is not n-complete");
+		System.exit(1);
+
 		//		try {
 		//			File testTreeFile 	= new File(testFile_str+"_tree.dot");
 		//			testutils.saveTestTree(testTree,testTreeFile);
