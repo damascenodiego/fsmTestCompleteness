@@ -22,25 +22,6 @@ public class CheckingCompletenessUtils {
 		if(instance==null) instance = new CheckingCompletenessUtils();
 		return instance;
 	}
-
-	/**
-	 * @param alpha This is the FsmState of a FsmTestTree which represents a test sequence.
-	 * @param k_set This is the set of cliques obtained from a distinguishability graph and which alpha must match n-1 elements to be linked 
-	 * @param dg This is the graph where alpha will be connected to one of the elements from k_set if it can be distinguished from n-1 elements
-	 * @return TRUE if alpha can be distinguished from n-1 states from k_set 
-	 */
-	public boolean canApplyLemma2(FsmState alpha, Set<FsmState> k_set, UndirectedGraph<FsmState, DefaultEdge> dg) {		
-		Set<FsmState> setDistinguished = new HashSet<FsmState>();		
-		setDistinguished.clear();
-		
-		for (FsmState s: k_set) {			
-			if(s.equals(alpha)) return true;
-			if(dg.containsEdge(alpha,s)) setDistinguished.add(s);		
-		}
-		
-		if(setDistinguished.size() != k_set.size()-1) return false;
-		else return true;
-	}
 	
 	/**
 	 * @param alpha This is the FsmState of a FsmTestTree which represents a test sequence.
@@ -50,26 +31,19 @@ public class CheckingCompletenessUtils {
 	 * @return TRUE if alpha can be distinguished from n-1 states from k_set 
 	 */	
 	public boolean canApplyLemma2(FsmState alpha, Map<Integer, Set<FsmState>> labels, Set<FsmState> k_set, UndirectedGraph<FsmState, DefaultEdge> dg) {		
-		Set<FsmState> setDistinguished = new HashSet<FsmState>();		
-		setDistinguished.clear();
+		Set<FsmState> distinguished_set = new HashSet<FsmState>();		
+		distinguished_set.clear();
 		
+		/* obtain distinguishable states */ 
 		for (FsmState s: k_set) {			
 			if(s.equals(alpha)) return true;	
-			if(dg.containsEdge(alpha,s)) setDistinguished.add(s);		
+			if(!dg.containsEdge(alpha,s)) distinguished_set.add(s);		
 		}
-		
-		/* k_clone is used for finding the label of the alpha */
-		Set<FsmState> k_clone = new HashSet<FsmState>(k_set);			
-		
-		/* set difference between k_set and k_clone */
-		k_clone.removeAll(setDistinguished);
 		
 		/* when distinguishable add alpha in the labels */
 		for (Integer key : labels.keySet())				
-			if(labels.get(key).containsAll(k_clone)) { 
-				labels.get(key).add(alpha);
-				return true;
-			}
+			if(labels.get(key).containsAll(distinguished_set)) 
+				return labels.get(key).add(alpha);
 			
 		return false;
 	}
@@ -95,6 +69,14 @@ public class CheckingCompletenessUtils {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
+	/**
+	 * @param set
+	 * @param n 
+	 * @return TRUE if set contains "n" distinguishable states
+	 */	
+	public boolean checkClique(Set<FsmState> set, Integer n) {
+		return (set.size() == n);
+	}
 	
 }
