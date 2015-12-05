@@ -1,5 +1,6 @@
 package com.usp.icmc.labes.utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import org.jgrapht.UndirectedGraph;
 
 import com.usp.icmc.labes.fsm.FsmModel;
 import com.usp.icmc.labes.fsm.FsmState;
+import com.usp.icmc.labes.fsm.FsmTestTree;
 import com.usp.icmc.labes.fsm.FsmTransition;
 import com.usp.icmc.labes.fsm.testing.FsmSUT;
 
@@ -180,6 +182,27 @@ public class CheckingCompletenessUtils {
 	 */	
 	public boolean checkClique(Set<FsmState> set, Integer n) {
 		return (set.size() == n);
+	}
+	
+	public void saveTestTreeAsDotFile(FsmTestTree tree, File f){
+		try {
+			FsmTestingUtils testutils = FsmTestingUtils.getInstance();
+			testutils.saveTestTree(tree,f);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void saveDistinguishingGraphAsDotFile(UndirectedGraph<FsmState, DefaultEdge> dg, File f){
+		try {
+			DistinguishGraphUtils dgutils = DistinguishGraphUtils.getInstance();
+			dgutils.saveDistinguishabilityGraph(dg,f);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

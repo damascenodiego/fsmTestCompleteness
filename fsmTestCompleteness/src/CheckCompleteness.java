@@ -98,6 +98,13 @@ public class CheckCompleteness {
 			if(ccutils.satisfiesTheorem1(k_set,model,testTree)) {
 				/* Output: True, if T is n-complete according to Theorems 1 and 2. */
 				//for (FsmState s : k_set)  System.out.println(testutils.getSequence(s));
+				
+				File testTreeFile 	= new File(testFile_str+".test_tree.dot");
+				ccutils.saveTestTreeAsDotFile(testTree,testTreeFile);
+
+				File dgFile 	= new File(testFile_str+".dg.dot");
+				ccutils.saveDistinguishingGraphAsDotFile(dg,dgFile);
+
 				System.out.println("the set is n-complete!");
 				System.exit(0);
 			}
@@ -114,18 +121,6 @@ public class CheckCompleteness {
 		System.out.println("the set is not n-complete");
 		System.exit(1);
 
-		//		try {
-		//			File testTreeFile 	= new File(testFile_str+"_tree.dot");
-		//			testutils.saveTestTree(testTree,testTreeFile);
-		//
-		//			File dgFile 	= new File(testFile_str+"_dg.dot");
-		//			dgutils.saveDistinguishabilityGraph(dg,dgFile);
-		//
-		//		} catch (Exception e) {
-		//			e.printStackTrace();
-		//		}
-		//
-		//		System.out.println(model);
 	}
 
 
