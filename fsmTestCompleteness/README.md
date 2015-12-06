@@ -46,4 +46,4 @@ fsmTestCompleteness generates two DOT files into data folder: a test tree and an
 
 ###### Example output DOT files (Distinguishing graph and Test gree) 
 
- ![alt text](/home/sidgley/Documents/Dropbox/MyAppProjects/workspace-java/fsmTestCompleteness/fsmTestCompleteness/img/seq-class.graph-dist.png?raw=true "Distinguishing graph") ![alt text](/home/sidgley/Documents/Dropbox/MyAppProjects/workspace-java/fsmTestCompleteness/fsmTestCompleteness/img/seq-class.test-tree.png?raw=true "Test tree")
+![alt text](https://github.com/sidgleyandrade/fsmTestCompleteness/blob/master/fsmTestCompleteness/img/seq-class.graph-dist.png?raw=true "Distinguishing graph") ![alt text](https://github.com/sidgleyandrade/fsmTestCompleteness/blob/master/fsmTestCompleteness/img/seq-class.test-tree.png?raw=true "Test tree")
