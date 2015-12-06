@@ -6,6 +6,10 @@ Written by [Carlos Diego Damasceno](mailto:carlos.damasceno08@gmail.com) and [Si
 
 <b>fsmTestCompleteness</b> is a implementation of the algorithm that checks whether a given test suite is complete as it is described in [Simao, Adenilso and Petrenko, Alexandre, 2010]: Checking completeness of Tests for Finite State Machines. DOI <a href="http://dx.doi.org/10.1109/TC.2010.17">dx.doi.org/10.1109/TC.2010.17</a>
 
+## General Information
+
+Releases: https://github.com/sidgleyandrade/fsmTestCompleteness/releases
+
 #### Dependencies
 
 - requires JDK 7 or later
@@ -15,7 +19,7 @@ Written by [Carlos Diego Damasceno](mailto:carlos.damasceno08@gmail.com) and [Si
 
 fsmTestCompleteness requires two inputs: a finite state machine, and a test set. Inside the data folder have both files.
 
-#### Finite State Machine
+###### Finite State Machine
 
 The format input of finite state machine is
 
@@ -31,7 +35,7 @@ The format input of finite state machine is
 	B -- y/0 -> A
 	A -- x/1 -> B 
 
-#### Test Set
+###### Test Set
 
 The test set is consisted from a input test sequence. For example, for the finite state machine above an input test set is
 
@@ -39,6 +43,10 @@ The test set is consisted from a input test sequence. For example, for the finit
 	xyyyy
 	yyyyyy
 	yyxyyy
+
+#### Testing
+
+        ./java -jar fsmTestCompleteness fsm-class.txt seq-class.txt
 
 #### DOT Files
 
