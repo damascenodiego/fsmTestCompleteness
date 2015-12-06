@@ -34,8 +34,6 @@ public class FsmTestingUtils {
 		return instance;
 	}
 
-
-
 	public FsmTest loadFsmTest(File testFile) {
 		FsmTest test = new FsmTest();
 		test.getProperties().put(File.class, testFile);
@@ -181,7 +179,6 @@ public class FsmTestingUtils {
 
 		if(colors.length<num) return colors[0];
 		else return colors[num];
-
 	}
 	
 }

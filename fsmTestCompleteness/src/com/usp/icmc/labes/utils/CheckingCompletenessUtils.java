@@ -40,7 +40,9 @@ public class CheckingCompletenessUtils {
 	public boolean canApplyLemma2(FsmState alpha, Map<Integer, Set<FsmState>> labels, Set<FsmState> k_set, UndirectedGraph<FsmState, DefaultEdge> dg) {		
 		/* when distinguishable add alpha in the labels */
 		List<Integer> notConnected = new ArrayList<Integer>();
+		
 		notConnected.addAll(labels.keySet());
+		
 		for (Integer key : labels.keySet()){
 			for(FsmState s: labels.get(key))
 				if(dg.containsEdge(alpha,s)){
@@ -92,14 +94,11 @@ public class CheckingCompletenessUtils {
 						labels.get(betaPhiLabel).add(alphaState);
 						return true;
 					}
-
 				}
 			}
 		}
-
 		return false;
 	}
-
 
 	private Integer getLabel(FsmState betaPhi, Map<Integer, Set<FsmState>> labels) {
 
@@ -176,9 +175,9 @@ public class CheckingCompletenessUtils {
 	}
 
 	/**
-	 * @param set
-	 * @param n 
-	 * @return TRUE if set contains "n" distinguishable states
+	 * @param set of cliques obtained from distinguishability graph
+	 * @param n is the number of states of the input model (finite state machine)
+	 * @return TRUE if set contains n distinguishable states
 	 */	
 	public boolean checkClique(Set<FsmState> set, Integer n) {
 		return (set.size() == n);
@@ -192,7 +191,6 @@ public class CheckingCompletenessUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void saveDistinguishingGraphAsDotFile(UndirectedGraph<FsmState, DefaultEdge> dg, File f){
@@ -202,7 +200,6 @@ public class CheckingCompletenessUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
