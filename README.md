@@ -48,7 +48,7 @@ The test set is consisted from a input test sequence. For example, for the finit
 
         java -jar fsmTestCompleteness.jar <fsm-file> <sequence-file>
         
-        Example: java -jar fsmTestCompleteness.jar ../data/fsm-class.txt ../data/seq-class.txt
+        Example: java -jar fsmTestCompleteness.jar ./fsm-class.txt ./seq-class.txt
 
 #### DOT Files
 

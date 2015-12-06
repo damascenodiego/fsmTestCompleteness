@@ -22,6 +22,8 @@
     </target>
 	
     <target name="create_run_jar" depends="clean,compile">
+    	<copy file="${dir.buildfile}/data/fsm-class.txt" tofile="${dir.buildfile}/dist/fsm-class.txt"/>
+    	<copy file="${dir.buildfile}/data/seq-class.txt" tofile="${dir.buildfile}/dist/seq-class.txt"/>
         <jar destfile="${dir.jarfile}/fsmTestCompleteness.jar">
             <manifest>
                 <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
