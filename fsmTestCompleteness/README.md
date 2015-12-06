@@ -13,9 +13,7 @@ Written by [Carlos Diego Damasceno](mailto:carlos.damasceno08@gmail.com) and [Si
 
 #### Contents
 
-fsmTestCompleteness requires two inputs: a finite state machine, and a test set.
-
-Inside the data folder have both files. The state machine files have extension .mef, and the test files have extension .test.
+fsmTestCompleteness requires two inputs: a finite state machine, and a test set. Inside the data folder have both files. The state machine files have extension .mef, and the test files have extension .test.
 
 #### Finite State Machine
 
