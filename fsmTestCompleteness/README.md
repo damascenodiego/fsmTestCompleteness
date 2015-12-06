@@ -44,6 +44,12 @@ The test set is consisted from a input test sequence. For example, for the finit
 
 fsmTestCompleteness generates two DOT files into data folder: a test tree and an distinguishability graph, respectively.
 
-###### Example output DOT files (Distinguishing graph and Test gree) 
+###### Example output DOT files
 
-![alt text](https://github.com/sidgleyandrade/fsmTestCompleteness/blob/master/fsmTestCompleteness/img/seq-class.graph-dist.png?raw=true "Distinguishing graph") ![alt text](https://github.com/sidgleyandrade/fsmTestCompleteness/blob/master/fsmTestCompleteness/img/seq-class.test-tree.png?raw=true "Test tree")
+Distinguishing graph
+
+![alt text](https://github.com/sidgleyandrade/fsmTestCompleteness/blob/master/fsmTestCompleteness/img/seq-class.graph-dist.png?raw=true "Distinguishing graph") 
+
+Test tree
+
+![alt text](https://github.com/sidgleyandrade/fsmTestCompleteness/blob/master/fsmTestCompleteness/img/seq-class.test-tree.png?raw=true "Test tree")
