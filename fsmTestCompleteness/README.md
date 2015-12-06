@@ -4,7 +4,7 @@ Released: Dezember 7, 2015
 
 Written by [Carlos Diego Damasceno](mailto:carlos.damasceno08@gmail.com) and [Sidgley Camargo de Andrade](mailto:sidgleyandrade@utfpr.edu.br)
 
-<b>fsmTestCompleteness<\b> is a implementation of the algorithm that checks whether a given test suite is complete as it is described in [Simao, Adenilso and Petrenko, Alexandre, 2010]: Checking completeness of Tests for Finite State Machines. DOI <a href="dx.doi.org/10.1109/TC.2010.17">dx.doi.org/10.1109/TC.2010.17</a>
+<b>fsmTestCompleteness</b> is a implementation of the algorithm that checks whether a given test suite is complete as it is described in [Simao, Adenilso and Petrenko, Alexandre, 2010]: Checking completeness of Tests for Finite State Machines. DOI <a href="dx.doi.org/10.1109/TC.2010.17">dx.doi.org/10.1109/TC.2010.17</a>
 
 ## Dependencies ##
 
