@@ -43,3 +43,5 @@ The test set is consisted from a input test sequence. For example, for the finit
 #### DOT Files
 
 fsmTestCompleteness generates two DOT files into data folder: a test tree and an distinguishability graph, respectively.
+
+![Alt text](http://www.okaidimalta.com/wp-content/uploads/2015/02/Human-figure.jpg?raw=true "Title")
