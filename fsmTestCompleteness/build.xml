@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project fsmTestCompleteness with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR file Export Wizard-->
+    <!--ANT 1.7 is required-->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.jarfile" value="${dir.buildfile}/dist"/>
+    <target name="clean">
+    	<delete dir="${dir.buildfile}/bin"/>
+    	<delete dir="${dir.buildfile}/dist"/>
+    </target>
+	
+	<path id="libraries">
+	  <fileset dir="${dir.buildfile}/lib/">
+	    <include name="*.jar"/>
+	  </fileset>
+	</path>
+	
+    <target name="compile">
+        <mkdir dir="bin/"/>
+    	<javac srcdir="src" destdir="${dir.buildfile}/bin/" classpathref="libraries"/>
+    </target>
+	
+    <target name="create_run_jar" depends="clean,compile">
+        <jar destfile="${dir.jarfile}/fsmTestCompleteness.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="CheckCompleteness"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ jgrapht-core-0.9.1.jar jgraph-5.13.0.0.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="${dir.buildfile}/bin"/>
+            <zipfileset dir="${dir.buildfile}/lib" includes="jgrapht-core-0.9.1.jar"/>
+            <zipfileset dir="${dir.buildfile}/lib" includes="jgraph-5.13.0.0.jar"/>
+        </jar>
+    </target>
+</project>
