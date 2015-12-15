@@ -8,8 +8,7 @@ Written by [Carlos Diego Damasceno](mailto:carlos.damasceno08@gmail.com) and [Si
 
 ## General Information
 
-	Releases: https://github.com/sidgleyandrade/fsmTestCompleteness/releases
-	Java Archive: https://github.com/sidgleyandrade/fsmTestCompleteness/tree/master/fsmTestCompleteness/dist
+Releases: https://github.com/sidgleyandrade/fsmTestCompleteness/releases
 
 #### Dependencies
 
